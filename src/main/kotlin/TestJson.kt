@@ -6,13 +6,29 @@ import java.time.LocalDate
 fun main() {
     val api = API()
 
-    val listGamer = api.getGame("133")
+    val listGamer1 = api.getGame("151")
+    val listGamer2 = api.getGame("149")
+    val listGamer3 = api.getGame("133")
+
     val listPlayer = api.getPlayers()
     println()
     val jogador = listPlayer[3]
-    val game = listGamer
-    val period: PeriodRental = PeriodRental(dateInit = LocalDate.now(), dateEnd = LocalDate.now().plusDays(7))
-    val rent = jogador.rentToDo(game = game, periodRental = period)
-    println(rent)
+
+    val game1 = listGamer1
+    val game2 = listGamer2
+    val game3 = listGamer3
+
+    val period1: PeriodRental = PeriodRental(dateInit = LocalDate.now(), dateEnd = LocalDate.now().plusDays(7))
+    val period2: PeriodRental = PeriodRental(dateInit = LocalDate.now(), dateEnd = LocalDate.now().plusDays(3))
+    val period3: PeriodRental = PeriodRental(dateInit = LocalDate.now(), dateEnd = LocalDate.now().plusDays(2))
+
+     jogador.rentToDo(game = game1, periodRental = period1)
+     jogador.rentToDo(game = game2, periodRental = period2)
+     jogador.rentToDo(game = game3, periodRental = period3)
+    //println(" $game1 ")
+    println("----------------")
+    println(jogador.listTask)
+    println("-----------")
+    println("Lista filtrada: ${jogador.getRentMonth(period1)}")
 
 }

@@ -13,6 +13,7 @@ data class Player(var name: String, var email: String) {
             }
         }
     var listGamer: MutableList<Info?> = mutableListOf()
+    val listTask: MutableList<Rent> = mutableListOf()
     var idIdentifier: String? = null
         private set
 
@@ -53,12 +54,20 @@ data class Player(var name: String, var email: String) {
                 " user=$userGamer, " +
                 "idInterno = $idIdentifier)"
     }
-    fun rentToDo(game: GameResponse, periodRental: PeriodRental): Rent = Rent(
-        player = this,
-        game = game,
-        period = periodRental
-    )
-
+    fun rentToDo(game: GameResponse, periodRental: PeriodRental): Rent {
+        val rent = Rent(player = this, game = game,
+            period = periodRental
+        )
+        listTask.add(rent)
+        return rent
+    }
+    fun getRentMonth(periodRental: PeriodRental): List<GameResponse> {
+        return listTask
+            .filter { it.period.dateInit.month == periodRental.dateInit.month }
+            .filter { it.game.info.title.startsWith("k", ignoreCase = true)}
+            //.filter { it.game.info.title.contains("e", ignoreCase = true) }
+            .map { it.game }
+    }
     companion object {
         fun createGame(scanner:Scanner): Player {
             println("Qual o seu nome?")

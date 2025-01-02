@@ -8,9 +8,7 @@ data class Info(
     override fun toString(): String {
         return "JOGO: \n" +
                 "TItulo:$title \n" +
-                "Capa:$thumb \n" +
-                //"Preço:${price} \n" +
-                "Descrição: $description"
-                //"Preço: $price"
+                "Capa:$thumb\n" +
+                "Descrição: $description\n"
     }
 }
