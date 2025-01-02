@@ -61,11 +61,11 @@ data class Player(var name: String, var email: String) {
         listTask.add(rent)
         return rent
     }
-    fun getRentMonth(periodRental: PeriodRental): List<GameResponse> {
+    fun getRentMonth(periodRental: PeriodRental, letter: String): List<GameResponse> {
         return listTask
             .filter { it.period.dateInit.month == periodRental.dateInit.month }
-            .filter { it.game.info.title.startsWith("k", ignoreCase = true)}
-            //.filter { it.game.info.title.contains("e", ignoreCase = true) }
+            //filter { it.game.info.title.startsWith(letter, ignoreCase = true)}
+            .filter { it.game.info.title.contains(letter, ignoreCase = true) }
             .map { it.game }
     }
     companion object {
