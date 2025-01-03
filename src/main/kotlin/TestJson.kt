@@ -29,6 +29,6 @@ fun main() {
     println("----------------")
     println(jogador.listTask)
     println("-----------")
-    println("Lista filtrada: ${jogador.getRentMonth(period1, "k")}")
+    println("Lista filtrada: ${jogador.rentToDo(game1, period1)}")
 
 }

@@ -5,7 +5,7 @@ data class Rent(
     val game: GameResponse,
     val period: PeriodRental
 ) {
-    var priceRent = game.cheapestPriceEver?.price?.toBigDecimal()?.times(period.inDays.toBigDecimal())
+    var priceRent = player.planType.getPlanValue(rent = this)
 
     override fun toString(): String {
         return "Aluguel do Jogo:${game.info.title},preço: ${game.cheapestPriceEver?.price} pelo Jogador: ${player.name}, Preço: $priceRent"

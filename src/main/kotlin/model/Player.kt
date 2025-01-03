@@ -14,6 +14,7 @@ data class Player(var name: String, var email: String) {
         }
     var listGamer: MutableList<Info?> = mutableListOf()
     val listTask: MutableList<Rent> = mutableListOf()
+    val planType: PlanSeparete = PlanSeparete(planType = "BRONZE")
     var idIdentifier: String? = null
         private set
 
