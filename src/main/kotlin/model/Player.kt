@@ -1,5 +1,7 @@
 package model
 
+import BRONZE
+import java.math.BigDecimal
 import java.util.Scanner
 import kotlin.random.Random
 
@@ -13,8 +15,8 @@ data class Player(var name: String, var email: String) {
             }
         }
     var listGamer: MutableList<Info?> = mutableListOf()
-    val listTask: MutableList<Rent> = mutableListOf()
-    val planType: PlanSeparete = PlanSeparete(planType = "BRONZE")
+    val rentedGames: MutableList<Rent> = mutableListOf()
+    var planType: Plan = PlanSeparete(planType = BRONZE)
     var idIdentifier: String? = null
         private set
 
@@ -59,16 +61,17 @@ data class Player(var name: String, var email: String) {
         val rent = Rent(player = this, game = game,
             period = periodRental
         )
-        listTask.add(rent)
+        rentedGames.add(rent)
         return rent
     }
     fun getRentMonth(periodRental: PeriodRental, letter: String): List<GameResponse> {
-        return listTask
+        return rentedGames
             .filter { it.period.dateInit.month == periodRental.dateInit.month }
             //filter { it.game.info.title.startsWith(letter, ignoreCase = true)}
             .filter { it.game.info.title.contains(letter, ignoreCase = true) }
             .map { it.game }
     }
+    fun getTotalRent(): BigDecimal = rentedGames.sumOf { it.priceRent?: BigDecimal.ZERO }
     companion object {
         fun createGame(scanner:Scanner): Player {
             println("Qual o seu nome?")

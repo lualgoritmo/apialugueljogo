@@ -1,5 +1,6 @@
 
 import model.PeriodRental
+import model.PlanSignature
 import service.API
 import java.time.LocalDate
 
@@ -26,9 +27,20 @@ fun main() {
      jogador.rentToDo(game = game2, periodRental = period2)
      jogador.rentToDo(game = game3, periodRental = period3)
     //println(" $game1 ")
+    val camila = listPlayer[5]
+    camila.planType = PlanSignature(planType = PRATA, "9,90", 3)
+    camila.rentToDo(game = game3, periodRental = period3)
+    camila.rentToDo(game = game2, periodRental = period2)
+    camila.rentToDo(game = game1, periodRental = period1)
+    println("------------")
+    println("Caroline")
+    jogador.rentedGames.forEach { println(it) }
+    println("Total: ${jogador.getTotalRent()}")
     println("----------------")
-    println(jogador.listTask)
-    println("-----------")
-    println("Lista filtrada: ${jogador.rentToDo(game1, period1)}")
+    println("Camila")
+    camila.rentedGames.forEach { println(it) }
+    println("Total: ${camila.getTotalRent()}")
+//    println("-----------")
+//    println("Lista filtrada: ${jogador.rentToDo(game1, period1)}")
 
 }
