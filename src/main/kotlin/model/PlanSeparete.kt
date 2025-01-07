@@ -1,10 +1,7 @@
 package model
 
-import java.math.BigDecimal
-
  class PlanSeparete(planType: String): Plan(planType = planType) {
-
-    override fun getPlanValue(rent: Rent): BigDecimal? =
-         rent.game.cheapestPriceEver?.price?.toBigDecimal()?.times(rent.period.inDays.toBigDecimal())
+    override fun getPlanValue(rent: Rent): Double =
+         rent.game.cheapestPriceEver.price.toDouble() * rent.period.inDays.toDouble()
 
 }

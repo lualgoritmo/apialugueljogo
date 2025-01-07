@@ -1,8 +1,6 @@
 package model
 
-import java.math.BigDecimal
-
  open class Plan(val planType: String) {
-    open fun getPlanValue(rent: Rent): BigDecimal? =
-        rent.game.cheapestPriceEver?.price?.toBigDecimal()?.times(rent.period.inDays.toBigDecimal())
+    open fun getPlanValue(rent: Rent): Double =
+        rent.game.cheapestPriceEver.price.toDouble() * rent.period.inDays.toDouble()
 }

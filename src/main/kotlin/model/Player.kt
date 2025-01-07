@@ -2,15 +2,15 @@ package model
 
 import BRONZE
 import java.math.BigDecimal
-import java.util.Scanner
+import java.util.*
 import kotlin.random.Random
 
 data class Player(var name: String, var email: String) {
     var dateOfBirth: String? = null
     var userGamer: String? = null
-        set(value){
+        set(value) {
             field = value
-            if(value.isNullOrBlank()) {
+            if (value.isNullOrBlank()) {
                 createIdIdentifier()
             }
         }
@@ -20,12 +20,12 @@ data class Player(var name: String, var email: String) {
     var idIdentifier: String? = null
         private set
 
-    constructor(name:String,emailUser: String, dateOfBirth:String, userGamer:String) :
+    constructor(name: String, emailUser: String, dateOfBirth: String, userGamer: String) :
             this(name = name, email = emailUser) {
-                this.dateOfBirth = dateOfBirth
-                this.userGamer = userGamer
-                createIdIdentifier()
-            }
+        this.dateOfBirth = dateOfBirth
+        this.userGamer = userGamer
+        createIdIdentifier()
+    }
 //
 //    init {
 //        this.email = validatedEmail()
@@ -34,7 +34,7 @@ data class Player(var name: String, var email: String) {
 //        }
 //    }
 
-     fun createIdIdentifier() {
+    fun createIdIdentifier() {
         val number = Random.nextInt(10000)
         val tag = String.format("%04d", number)
         idIdentifier = "$userGamer#$tag"
@@ -42,11 +42,11 @@ data class Player(var name: String, var email: String) {
 
     fun validatedEmail(): String {
         val regex = Regex(pattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")
-         if(regex.matches(email)) {
-             return email
-         } else {
-             throw  RuntimeException("Email inválido!")
-         }
+        if (regex.matches(email)) {
+            return email
+        } else {
+            throw RuntimeException("Email inválido!")
+        }
     }
 
     override fun toString(): String {
@@ -57,13 +57,21 @@ data class Player(var name: String, var email: String) {
                 " user=$userGamer, " +
                 "idInterno = $idIdentifier)"
     }
+
     fun rentToDo(game: GameResponse, periodRental: PeriodRental): Rent {
-        val rent = Rent(player = this, game = game,
+        val rent = Rent(
+            player = this, game = game,
             period = periodRental
         )
         rentedGames.add(rent)
         return rent
     }
+
+    fun gamesOfMorth(month: Int): List<GameResponse> = rentedGames.filter {
+        rent -> rent.period.dateInit.monthValue == month }
+        .map { rent -> rent.game }
+
+
     fun getRentMonth(periodRental: PeriodRental, letter: String): List<GameResponse> {
         return rentedGames
             .filter { it.period.dateInit.month == periodRental.dateInit.month }
@@ -71,23 +79,25 @@ data class Player(var name: String, var email: String) {
             .filter { it.game.info.title.contains(letter, ignoreCase = true) }
             .map { it.game }
     }
-    fun getTotalRent(): BigDecimal = rentedGames.sumOf { it.priceRent?: BigDecimal.ZERO }
+
+    fun getTotalRent(): Double = rentedGames.sumOf { it.priceRent ?: 0.0 }
+
     companion object {
-        fun createGame(scanner:Scanner): Player {
+        fun createGame(scanner: Scanner): Player {
             println("Qual o seu nome?")
             val name = scanner.nextLine()
             println("Qual o seu email?")
             val email = scanner.nextLine()
             println("Usuário e data de nascimento S/N ?")
             val option = scanner.nextLine()
-            if(option.equals("s", ignoreCase = true)) {
+            if (option.equals("s", ignoreCase = true)) {
                 println("Data de Nascimento DD//MM/AAAA?")
                 val dateOfBirth = scanner.nextLine()
                 println("Digite o seu nome de usuário?")
                 val userName = scanner.nextLine()
 
                 return Player(name = name, emailUser = email, dateOfBirth = dateOfBirth, userGamer = userName)
-            }else {
+            } else {
                 return Player(name = name, email = email)
             }
         }

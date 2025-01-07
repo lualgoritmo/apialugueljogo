@@ -28,14 +28,16 @@ fun main() {
      jogador.rentToDo(game = game3, periodRental = period3)
     //println(" $game1 ")
     val camila = listPlayer[5]
-    camila.planType = PlanSignature(planType = PRATA, "9,90", 3)
+    camila.planType = PlanSignature(planType = PRATA, "9,90", QUANTITY)
     camila.rentToDo(game = game3, periodRental = period3)
     camila.rentToDo(game = game2, periodRental = period2)
-    camila.rentToDo(game = game1, periodRental = period1)
+    camila.rentToDo(game = game2, periodRental = period1)
+    camila.rentToDo(game = game1, periodRental = period2)
+    camila.rentToDo(game = game1, periodRental = period3)
     println("------------")
     println("Caroline")
-    jogador.rentedGames.forEach { println(it) }
-    println("Total: ${jogador.getTotalRent()}")
+    //jogador.rentedGames.forEach { println(it) }
+   // println("Total: ${jogador.getTotalRent()}")
     println("----------------")
     println("Camila")
     camila.rentedGames.forEach { println(it) }
