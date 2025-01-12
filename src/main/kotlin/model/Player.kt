@@ -1,11 +1,11 @@
 package model
 
 import BRONZE
-import java.math.BigDecimal
+import contrate.Recommended
 import java.util.*
 import kotlin.random.Random
 
-data class Player(var name: String, var email: String) {
+data class Player(var name: String, var email: String): Recommended {
     var dateOfBirth: String? = null
     var userGamer: String? = null
         set(value) {
@@ -16,9 +16,15 @@ data class Player(var name: String, var email: String) {
         }
     var listGamer: MutableList<Info?> = mutableListOf()
     val rentedGames: MutableList<Rent> = mutableListOf()
+    private val noteList:MutableList<Int> = mutableListOf()
     var planType: Plan = PlanSeparete(planType = BRONZE)
     var idIdentifier: String? = null
         private set
+    override val average: Double
+        get() = noteList.average()
+    override fun recommended(note: Int) {
+        noteList.add(note)
+    }
 
     constructor(name: String, emailUser: String, dateOfBirth: String, userGamer: String) :
             this(name = name, email = emailUser) {
@@ -51,11 +57,12 @@ data class Player(var name: String, var email: String) {
 
     override fun toString(): String {
         return "Jogador " +
-                "name='$name'," +
-                " email='$email', " +
-                "dateOfBirth = $dateOfBirth," +
-                " user=$userGamer, " +
-                "idInterno = $idIdentifier)"
+                "name='$name',\n" +
+                " email='$email', \n" +
+                "dateOfBirth = $dateOfBirth,\n" +
+                " user=$userGamer, \n" +
+                "idInterno = $idIdentifier)\n" +
+                "Reputação = $average"
     }
 
     fun rentToDo(game: GameResponse, periodRental: PeriodRental): Rent {

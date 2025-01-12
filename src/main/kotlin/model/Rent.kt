@@ -7,7 +7,12 @@ data class Rent(
 ) {
     var priceRent: Double = player.planType.getPlanValue(rent = this)
     override fun toString(): String {
-        return "Aluguel do Jogo:${game.info.title} pelo Jogador: ${player.name}, Preço: $priceRent"
+        return "" +
+                "Aluguel do Jogo:\n" +
+                "${game.info.title}" +
+                "pelo Jogador: \n" +
+                "${player.name} \n" +
+                "Preço: $priceRent"
     }
 
 }
