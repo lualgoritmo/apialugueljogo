@@ -4,7 +4,7 @@ package model
      override fun getPlanValue(rent: Rent): Double {
          var valueOrigin = super.getPlanValue(rent)
 
-         if(valueOrigin > 8) {
+         if(rent.player.average > 8) {
              valueOrigin -= valueOrigin * 0.1
          }
          return valueOrigin

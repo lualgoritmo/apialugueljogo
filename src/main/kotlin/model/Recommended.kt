@@ -1,4 +1,4 @@
-package contrate
+package model
 
 interface Recommended {
     val average: Double

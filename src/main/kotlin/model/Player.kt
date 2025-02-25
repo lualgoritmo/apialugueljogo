@@ -1,7 +1,6 @@
 package model
 
 import BRONZE
-import contrate.Recommended
 import java.util.*
 import kotlin.random.Random
 
@@ -14,16 +13,21 @@ data class Player(var name: String, var email: String): Recommended {
                 createIdIdentifier()
             }
         }
-    var listGamer: MutableList<Info?> = mutableListOf()
+    var listGamer: MutableList<GameInfo?> = mutableListOf()
     val rentedGames: MutableList<Rent> = mutableListOf()
     private val noteList:MutableList<Int> = mutableListOf()
+     val recommendedGame:MutableList<InfoGame> = mutableListOf()
     var planType: Plan = PlanSeparete(planType = BRONZE)
     var idIdentifier: String? = null
         private set
     override val average: Double
         get() = noteList.average()
     override fun recommended(note: Int) {
-        noteList.add(note)
+        if(note < 1 || note > 10) {
+            println("Está nota não é válida, apenas entre 1 e 10")
+        }else {
+            noteList.add(note)
+        }
     }
 
     constructor(name: String, emailUser: String, dateOfBirth: String, userGamer: String) :
@@ -64,8 +68,7 @@ data class Player(var name: String, var email: String): Recommended {
                 "idInterno = $idIdentifier)\n" +
                 "Reputação = $average"
     }
-
-    fun rentToDo(game: GameResponse, periodRental: PeriodRental): Rent {
+    fun rentToDo(game: GameInfo, periodRental: PeriodRental): Rent {
         val rent = Rent(
             player = this, game = game,
             period = periodRental
@@ -73,17 +76,20 @@ data class Player(var name: String, var email: String): Recommended {
         rentedGames.add(rent)
         return rent
     }
-
-    fun gamesOfMorth(month: Int): List<GameResponse> = rentedGames.filter {
+    fun recomnedGamer(game: InfoGame, note:Int) {
+        this.recommended(note)
+       this.recommendedGame.add(game)
+    }
+    fun gamesOfMorth(month: Int): List<GameInfo> = rentedGames.filter {
         rent -> rent.period.dateInit.monthValue == month }
         .map { rent -> rent.game }
 
 
-    fun getRentMonth(periodRental: PeriodRental, letter: String): List<GameResponse> {
+    fun getRentMonth(periodRental: PeriodRental, letter: String): List<GameInfo> {
         return rentedGames
             .filter { it.period.dateInit.month == periodRental.dateInit.month }
             //filter { it.game.info.title.startsWith(letter, ignoreCase = true)}
-            .filter { it.game.info.title.contains(letter, ignoreCase = true) }
+            .filter { it.game.title.contains(letter, ignoreCase = true) }
             .map { it.game }
     }
 
